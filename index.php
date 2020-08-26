@@ -6,6 +6,7 @@
 	<title>MarketSur</title>
 	<link rel="stylesheet" href="css/bootstrap.min.css">
 	<script src="https://kit.fontawesome.com/7ff0a0897d.js"></script>
+	<link rel="stylesheet" href="css/estilos.css">
 
 </head>
 <body>
@@ -26,22 +27,27 @@
 			<div class="col-md-3">
 				<p><b><i class="fas fa-box-open"></i> Categorías</b></p>
 				<div class="list-group">
-				  <a href="#" v-for="x in categorias" class="list-group-item list-group-item-action">
-				    {{ x.nombreCategoria }} - {{ x.idCategoria }}
+				  <a href="#" v-for="categoria in categorias" class="list-group-item list-group-item-action" v-on:click="listarAvisosPorCategoria(categoria.idCategoria, categoria.nombreCategoria)">
+				    {{ categoria.nombreCategoria }} 
 				  </a>
+				  <a href="#" class="list-group-item list-group-item-action" v-on:click="listarAvisos()"> Todas </a>
 				  
 				</div>
 			</div>
 			<div class="col-md-9">
 				<div class="container">
 					<div class="row">
-						<div class="col-md-6">
+						<div class="col-md-12">
+							<h5>Mostrando {{ cantidadAvisos }} avisos de la categoría: {{ categoriaSeleccionada }}</h5>
+						</div>
+						<div class="col-md-6 mb-3" v-for="aviso in avisos">
 							<div class="card">
-							  <img src="http://lorempixel.com/400/350" class="card-img-top" alt="...">
+							  <img v-bind:src="aviso.imagenAviso" class="card-img-top" alt="...">
 							  <div class="card-body">
-							    <h4 class="card-title">Título producto</h4>
-							    <h5><i class="fas fa-hand-holding-usd"></i> 10.000.-</h5>
-							    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+							    <h4 class="card-title">{{ aviso.tituloAviso}}</h4>
+							    <h5><i class="fas fa-hand-holding-usd"></i> {{ Intl.NumberFormat('es-CL').format(aviso.precioAviso)  }}</h5>
+							    <p class="card-text">{{ aviso.descripcionAviso }}</p>
+							    <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#modalDatosUsuario" v-on:click="mostrarDatosUsuario(aviso.idUsuario)">Contactar</button>
 							  </div>
 							</div>
 						</div>
@@ -49,6 +55,37 @@
 				</div>
 			</div>
 		</div>
+
+
+		<div class="modal fade" id="modalDatosUsuario" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="exampleModalLabel">Publicado por {{ datosUsuario.nombreUsuario + " " + datosUsuario.apellidoUsuario }}</h5>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+		        <img v-bind:src="datosUsuario.fotoPerfilUsuario" class="rounded mx-auto d-block" alt="...">
+		        <div class="text-center mt-4">
+		        	<a v-bind:href="whatsapp + datosUsuario.fonoUsuario" target="_blank" class="btn btn-outline-success"> 
+		        		<i class="fab fa-whatsapp"></i> {{ datosUsuario.fonoUsuario }} 
+		        	</a>
+		        	
+		        	<h5> <i class="far fa-paper-plane"></i> {{ datosUsuario.correoUsuario }} </h5>
+		        	
+		        </div>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+
+
+
 	</div>
 
 

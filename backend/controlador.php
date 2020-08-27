@@ -35,7 +35,36 @@ switch ($opcion) {
 
 		echo json_encode($datosUsuario);
 		break;
+	case 'iniciarSesion':
+		$correoUsuario = $_POST["correoUsuario"];
+		$passwordUsuario = $_POST["passwordUsuario"];
+		$respuesta = Usuarios::iniciarSesionUsuario($correoUsuario, $passwordUsuario);
 
+		if ( $respuesta["correoUsuario"] == $correoUsuario && $respuesta["contrasenaUsuario"] == $passwordUsuario) {
+			session_start();
+			$_SESSION["nombreCompletoUsuario"] = $respuesta["nombreUsuario"]." ".$respuesta["apellidoUsuario"];
+
+			echo 'iniciar';
+		} else {
+			echo 'Datos incorrectos';
+		}
+		break;
+	case 'registrarUsuario':
+		$nombreUsuario = $_POST["nombreUsuario"];
+		$apellidoUsuario = $_POST["apellidoUsuario"];
+		$fotoUsuario = $_POST["fotoUsuario"];
+		$telefonoUsuario = $_POST["telefonoUsuario"];		
+		$correoUsuario = $_POST["correoUsuario"];
+		$passwordUsuario = $_POST["passwordUsuario"];
+		$respuesta = Usuarios::registrarUsuario($nombreUsuario, $apellidoUsuario, $fotoUsuario, $telefonoUsuario, $correoUsuario, $passwordUsuario );
+
+		if ($respuesta == true) {
+			echo 'exito';
+		} else {
+			echo 'No se pudo registrar el usuario';
+		}
+		break;
+ 
 	default:
 		# code...
 		break;

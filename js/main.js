@@ -49,7 +49,67 @@ var principal = new Vue({
 			})
 		}
 	}
+})
+
+
+var gestionarUsuario = new Vue({
+
+	el: '#modalesUsuario',
+	data: {
+		tituloInicioSesion: 'Inicie Sesión Usuario',
+		user: '',
+		password: '',
+		nombreUsuario: '',
+		apellidoUsuario: '',
+		fotoUsuario: '',
+		telefonoUsuario: '',
+		correoUsuario: '',
+		passwordUsuario: ''
+	},
+	methods: {
+		iniciarSesion: function () {
+			axios.post(urlControlador, {
+					opcion:'iniciarSesion',
+					correoUsuario: this.user,
+					passwordUsuario: this.password
+
+				} ).then(response => {
+				if (response.data == 'iniciar') {
+					window.location.reload()
+				} else {
+					this.tituloInicioSesion = response.data
+				}
+
+				//this.datosUsuario = response.data
+				
+			})
+		},
+		registrarUsuario: function () {
+				axios.post(urlControlador, {
+					opcion:'registrarUsuario',
+					nombreUsuario: this.nombreUsuario,
+					apellidoUsuario: this.apellidoUsuario,
+					fotoUsuario: this.fotoUsuario,
+					telefonoUsuario: this.telefonoUsuario,
+					correoUsuario: this.correoUsuario,
+					passwordUsuario: this.passwordUsuario
+
+				} ).then(response => {
+					if (response.data == 'exito') {
+						$('#modalRegistrarse').modal('hide')
+						$('#mensajeRegistro').modal('show')
+						setTimeout(function() {
+							$('#mensajeRegistro').modal('hide')
+							$('#modalInicioSesion').modal('show')
+						}, 3000)
+					}
+				console.log(response.data)
+
+				//this.datosUsuario = response.data
+				
+			})
+		}
+	}
 
 
 })
-

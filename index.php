@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,10 +17,35 @@
 	    <input class="form-control mr-sm-2" type="search" placeholder="Escribe un producto" aria-label="Search">
 	    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
 	  </form>
-	  <div>
-	  	<button class="btn btn-warning btn-sm" type="button">Ingresar</button>
-	  	<button class="btn btn-info btn-sm" type="button">Registrarme</button>	
-	  </div>
+
+	  <?php 
+
+	  if ( isset( $_SESSION["nombreCompletoUsuario"] ) ) { ?>
+
+
+	  	<div class="dropdown">
+		  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		    <?php echo $_SESSION["nombreCompletoUsuario"];  ?>
+		  </button>
+		  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+		    <a class="dropdown-item" href="#">Mis Publicaciones</a>
+		    <a class="dropdown-item" href="#">Mi cuenta</a>
+		    <a class="dropdown-item" href="backend/cerrarSesion.php">Cerrar Sesión</a>
+		  </div>
+		</div>
+		<?php
+	  } else { ?>
+
+		<div>
+	  		<button class="btn btn-warning btn-sm" type="button" data-toggle="modal" data-target="#modalInicioSesion">Ingresar</button>
+	  		<button class="btn btn-info btn-sm" type="button"  data-toggle="modal" data-target="#modalRegistrarse">Registrarme</button>	
+	  	</div>
+
+	  <?php
+	  }
+	  ?>
+
+	  
 	</nav>
 
 	<div class="container mt-4" id="principal">
@@ -89,6 +115,7 @@
 	</div>
 
 
+	<?php require_once('modales.php'); ?>
 
 	<script src="js/jquery-3.5.1.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>

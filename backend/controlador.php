@@ -40,10 +40,10 @@ switch ($opcion) {
 		$passwordUsuario = $_POST["passwordUsuario"];
 		$respuesta = Usuarios::iniciarSesionUsuario($correoUsuario, $passwordUsuario);
 
-		if ( $respuesta["correoUsuario"] == $correoUsuario && $respuesta["contrasenaUsuario"] == $passwordUsuario) {
+		if ( $respuesta["correoUsuario"] == $correoUsuario && $respuesta["contrasenaUsuario"] == md5($passwordUsuario) ) {
 			session_start();
 			$_SESSION["nombreCompletoUsuario"] = $respuesta["nombreUsuario"]." ".$respuesta["apellidoUsuario"];
-
+			$_SESSION["idUsuario"] = $respuesta["idUsuario"];
 			echo 'iniciar';
 		} else {
 			echo 'Datos incorrectos';
@@ -58,13 +58,41 @@ switch ($opcion) {
 		$passwordUsuario = $_POST["passwordUsuario"];
 		$respuesta = Usuarios::registrarUsuario($nombreUsuario, $apellidoUsuario, $fotoUsuario, $telefonoUsuario, $correoUsuario, $passwordUsuario );
 
+
 		if ($respuesta == true) {
 			echo 'exito';
 		} else {
-			echo 'No se pudo registrar el usuario';
+			echo '<span class="badge badge-danger">Usuario ya existe</span>';
 		}
 		break;
- 
+	case 'listarAvisosUsuario':
+		session_start();
+		$idUsuario = $_SESSION["idUsuario"];
+		$respuesta = Avisos::listarAvisosUsuario($idUsuario);
+
+		echo json_encode($respuesta);
+		break;
+	case 'publicarAviso':
+		session_start();
+		$idUsuario = $_SESSION["idUsuario"];
+		$tituloAviso = $_POST["tituloAviso"];
+		$precioAviso = $_POST["precioAviso"];
+		$categoriaAviso = $_POST["categoriaAviso"];
+		$descripcionAviso = $_POST["descripcionAviso"];		
+		$imagenAviso = $_POST["imagenAviso"];
+		$respuesta = Avisos::publicarAviso($tituloAviso, $precioAviso, $categoriaAviso, $descripcionAviso, $imagenAviso, $idUsuario);
+
+		echo $respuesta;
+		break;
+
+	case 'eliminarAviso':
+		session_start();
+		$idAviso = $_POST["id"];
+ 		$respuesta = Avisos::eliminarAviso($idAviso);
+
+		echo $respuesta;
+		break;
+
 	default:
 		# code...
 		break;

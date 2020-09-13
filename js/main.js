@@ -64,7 +64,8 @@ var gestionarUsuario = new Vue({
 		fotoUsuario: '',
 		telefonoUsuario: '',
 		correoUsuario: '',
-		passwordUsuario: ''
+		passwordUsuario: '',
+		tituloRegistrarme: 'Ingrese sus datos para registrarse'
 	},
 	methods: {
 		iniciarSesion: function () {
@@ -102,10 +103,10 @@ var gestionarUsuario = new Vue({
 							$('#mensajeRegistro').modal('hide')
 							$('#modalInicioSesion').modal('show')
 						}, 3000)
+					} else {
+						this.tituloRegistrarme = response.data
 					}
-				console.log(response.data)
 
-				//this.datosUsuario = response.data
 				
 			})
 		}

@@ -34,7 +34,7 @@
 	  <div class="modal-dialog modal-lg">
 	    <div class="modal-content">
 	      <div class="modal-header">
-	        <h5 class="modal-title" id="exampleModalLabel"> Ingrese sus datos </h5>
+	        <h5 class="modal-title" id="exampleModalLabel" v-html="tituloRegistrarme">  </h5>
 	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 	          <span aria-hidden="true">&times;</span>
 	        </button>
@@ -45,33 +45,33 @@
           <div class="form-row">
             <div class="form-group col-md-6">
               <label for="inputEmail4">Nombre</label>
-              <input type="text" class="form-control" v-model="nombreUsuario">
+              <input type="text" class="form-control" v-model="nombreUsuario" >
             </div>
             <div class="form-group col-md-6">
               <label for="inputPassword4">Apellido</label>
-              <input type="text" class="form-control" v-model="apellidoUsuario">
+              <input type="text" class="form-control" v-model="apellidoUsuario" >
             </div>
           </div>
           <div class="form-group">
             <label for="inputAddress">Foto</label>
-            <input type="text" class="form-control" v-model="fotoUsuario">
+            <input type="text" class="form-control" v-model="fotoUsuario" >
           </div>
 
           <div class="form-row">
             <div class="form-group col-md-4">
               <label for="inputCity">Teléfono</label>
-              <input type="text" class="form-control" v-model="telefonoUsuario">
+              <input type="tel" class="form-control" v-model="telefonoUsuario" >
             </div>
             <div class="form-group col-md-5">
               <label for="inputState">Correo</label>
-              <input type="text" class="form-control" v-model="correoUsuario">
+              <input type="email" class="form-control" v-model="correoUsuario" >
             </div>
             <div class="form-group col-md-3">
               <label for="inputZip">Password</label>
-              <input type="password" class="form-control" v-model="passwordUsuario">
+              <input type="password" class="form-control" v-model="passwordUsuario" >
             </div>
           </div>
-          <button type="submit" class="btn btn-primary" v-on:click.prevent="registrarUsuario()">Registrarme</button>
+          <button type="submit" class="btn btn-primary" v-on:click.prevent="registrarUsuario()" v-bind:disabled="nombreUsuario =='' || apellidoUsuario=='' || fotoUsuario=='' || telefonoUsuario=='' || correoUsuario=='' || passwordUsuario=='' ">Registrarme</button>
         </form>
 
 

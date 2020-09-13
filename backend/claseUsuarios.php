@@ -12,18 +12,24 @@ class Usuarios {
 	}
 
 	public static function iniciarSesionUsuario ($correoUsuario, $passwordUsuario) {
-		$sql = "SELECT * FROM usuarios WHERE correoUsuario = '$correoUsuario' AND contrasenaUsuario = '$passwordUsuario' ";
+		$sql = "SELECT * FROM usuarios WHERE correoUsuario = '$correoUsuario' AND contrasenaUsuario = md5($passwordUsuario) ";
 		$resultado = Conexion::Conectar()->prepare($sql);
 		$resultado->execute();
 		return $resultado->fetch(); //traemos solo una fila
-	}
-
+	}                                                                                                                                                                                                                                                               
 	public static function registrarUsuario ($nombreUsuario, $apellidoUsuario, $fotoUsuario, $telefonoUsuario, $correoUsuario, $passwordUsuario ) {
 
-		$sql = "INSERT INTO usuarios() VALUES (null, '$nombreUsuario', '$apellidoUsuario', '$fotoUsuario', '$telefonoUsuario', md5('$passwordUsuario'), '$correoUsuario'  ) ";
-		$resultado = Conexion::Conectar()->prepare($sql);
-		$resultado->execute();
-
+		$usuarioExiste = "SELECT * FROM usuarios WHERE correoUsuario = '$correoUsuario'";
+		$resultadoExiste = Conexion::Conectar()->prepare($usuarioExiste);
+		$resultadoExiste->execute();
+		$resultadoExiste->fetch();
+		if ($resultadoExiste->rowCount() > 0) {
+			$resultado = false;
+		} else {
+			$sql = "INSERT INTO usuarios() VALUES (null, '$nombreUsuario', '$apellidoUsuario', '$fotoUsuario', '$telefonoUsuario', md5('$passwordUsuario'), '$correoUsuario'  ) ";
+				$resultado = Conexion::Conectar()->prepare($sql);
+				$resultado->execute();
+		}
 		return $resultado;
 	}
 

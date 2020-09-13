@@ -28,7 +28,7 @@
 		    <?php echo $_SESSION["nombreCompletoUsuario"];  ?>
 		  </button>
 		  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-		    <a class="dropdown-item" href="#">Mis Publicaciones</a>
+		    <a class="dropdown-item" href="mispublicaciones.php">Mis Publicaciones</a>
 		    <a class="dropdown-item" href="#">Mi cuenta</a>
 		    <a class="dropdown-item" href="backend/cerrarSesion.php">Cerrar Sesión</a>
 		  </div>
